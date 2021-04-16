@@ -39,6 +39,16 @@ tiny as possible. Artists have recently targeted between ~5-20k for their code (
 
 No, the library you use is not stored on-chain with your project. The Libary you choose will be injected into the window scope when the project runs.
 
+## Really, how expensive is it to put my code on-chain?
+
+The actual cost can vary a lot with current gas prices, but pretty much follows the formula `675 * Bytes * Gwei Price * (1/1000000000)`. So a 10k project at 100 gwei would be:
+
+```
+675 * 10000 * 100 * (1 / 1000000000)
+675000000 / 1000000000
+0.675 ETH
+```
+
 ## Can I load external assets into my project (textures, audio, etc)?
 
 Not yet. Some ideas are being worked on that will allow external assets to get pulled in, but currently everything must be included in the script file. For
@@ -46,7 +56,7 @@ small and critical assets, you may be able to use `base-64` encoding to encode t
 
 ## Can I use text? What fonts can I use?
 
-You can use text in your project! Fonts are currently limited to the core web fonts to ensure universal support 
+You can use text in your project! Font choice is technically at your discression but you're encouraged to use the core web fonts to ensure universal support and maintain the integrity of the piece over the longer term. 
 (`serif`, `sans-serif`, `monospace` and less commonly `cursive` and `fantasy`)
 
 ## I heard the output sould be 'resolution agnostic,' what's that all about?
