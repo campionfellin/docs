@@ -194,7 +194,7 @@ This should all be self-explanatory. Just fill and sumbit each one separately.
 In this tab you'll set the price and supply for your project. If you're accepting ETH as payment you don't need to worry about "Updated Currency Information". Although you can specify any ERC20-compliant token if you choose. Just give someone a heads up that you wish to go down this route.
 
 #### Scripts
-Here you'll first specify the dependency of your project including the script type and the version number of that script. For most scripts, you can leave the version blank or enter 1. The aspect ratio is a single number. E.g. 1 or 0.75 etc. If your piece takes a certain amount of time to fully render you can type in the animation length to let the server know when to render the canvas.
+Here you'll first specify the dependency of your project including the script type and the version number *of that dependency*. For most scripts, you can leave the version blank or enter 1. The aspect ratio is a single number. E.g. 1 or 0.75 etc. If your piece takes a certain amount of time to fully render you can type in the animation length to let the server know when to render the canvas.
 
 Once you've submitted your script details add your script to the "Project Script" box. Remember, `tokenData.hash` is a global variable in the environment this script will live in, so you do not need to define `tokenData` in your script, just expect your script will have access to it.
 
@@ -203,7 +203,7 @@ If your script is big, you can minify it here: https://javascript-minifier.com/
 If your script is soo big that you cannot fit it in a single transaction (you're getting an error when you submit), you may need to split it up and submit each part subsequently.
 
 #### URI
-If you want to see how your mints look on OpenSea, you can see the BaseURI to `https://rinkebyapi.artblocks.io/token/`. This is optional but on mainnet you must set this to `https://api.artblocks.io/token/`
+Set the BaseURI to `https://rinkebyapi.artblocks.io/token/` on rinkeby and `https://api.artblocks.io/token/` for mainnet. If this is not set, your mints will not render.
 
 #### Finishing Actions
 Once you're done let us know and we will activate the project. You can then click "Purchases Paused" to test out the minting. Once your test mints are working in the livescript view, mint 20-40.
