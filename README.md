@@ -86,6 +86,10 @@ R.random_choice(["a", "b", "c"])
 
 Every time one of these functions is called, `random_dec()` will also be called somewhere in the stack. Applying the determistic arithmetic to the seed and returning a new random number.
 
+#### I heard I shouldn't use `Math.random()`. Why not?
+
+When users mint each piece, they are creating a hash token on the blockchain. All the attributes of your piece should be derived from that tokenso that user will be able to render their piece and get the same results each time. `Math.random` is derived from the computer's clock, so even if it is seeded there is no guarantee you will get the same output on different computing environments in the future.
+
 ### Create a series of hex pairs
 
 Alternatively, you could just extract numbers from each of the hex pairs to parameterize your algorithm. Here we extract pairs and parse them into integers from 0-256. If we want them these values to range only between 0-10 for example we can do the following:
@@ -113,6 +117,24 @@ let color = rns[2] > 7 ? "white" : "black"
 
 Now you have the basics here are some general principles you need to consider when making your art. 
 
+### Limited Dependencies
+Each project can have zero or one library dependency. The approved dependencies are currently the following:
+
+  + No Library at all (Vanilla JS, CSS, HTML, WebGL)
+  + p5js
+  + processing
+  + a-frame
+  + threejs
+  + vox
+  + megavox
+  + js
+  + svg 
+  + custom
+  + regl
+  + tonejs
+
+Additional libraries may be added at moderater discression, but the rule is only one external library per project.
+
 ### Deterministic
 Each output must be determistic based on a single hash. More specifically, the initial output or frame must be the same. If your piece is animated, some randomness is okay. This is so when the art is rendered as an image (e.g. for OpenSea) it is always the same.
 
@@ -137,6 +159,22 @@ function setup() {
 ### Cost
 Storing code on Ethereum is expensive! Taking average gas prices, you can generally expect to pay ~$10 for each full line of code your script requires. With that in mind - keep things efficient, maximize code reuse with functions, remove comments, and minify your finished code.
 
+
+Based on previous projects, we've estimated the cost of uploading a script to be the following; where Bytes is the size of your project and gwei price is the price you set when submitting your transaction. It always helps to wait until non-peak hours to upload your script.
+
+```
+Cost (ETH) = 675 * Bytes * Gwei Price * (1/1000000000)
+```
+
+So a 10 KB project at 100 gwei would be:
+
+```
+675 * 10000 * 100 * (1 / 1000000000)
+675000000 / 1000000000
+0.675 ETH
+```
+
+Artists have recently targeted between ~5-20 KB for their code (without the library), but obviously this will vary by project scope. 
 
 ## Testing on Rinkeby
 
@@ -169,3 +207,46 @@ If you want to see how your mints look on OpenSea, you can see the BaseURI to `h
 
 #### Finishing Actions
 Once you're done let us know and we will activate the project. You can then click "Purchases Paused" to test out the minting. Once your test mints are working in the livescript view, mint 20-40.
+
+#### How does my project get those OpenSea attributes?
+
+Once your project is selected to be included in one of the ArtBlocks collections, the onboarding team will help you with this. The one thing to keep in mind is that all of the attributes you want displayed should be directly generated from the transaction hash and should not depend on any other randomness. 
+
+This script is essentially a copy of your rendering script but without any dependencies present (the server won't have access to them). It must define a variable called `features` in the outer most scope.
+
+```
+features = ["color: red", "shape: square"]
+```
+
+## Frequently Asked Questions
+
+### Do I need to know solidity (the Ethereum scripting language)?
+
+No. Art Blocks handles all of that for you. All you need to do is the artwork.
+
+### Does the size include the library that I'm using?
+
+No, the library you use is not stored on-chain with your project. The Libary you choose will be injected into the window scope when the project runs.
+
+### Can I load external assets into my project (textures, audio, etc)?
+
+Not yet. Some ideas are being worked on that will allow external assets to get pulled in, but currently everything must be included in the script file. For small and critical assets, you may be able to use `base-64` encoding to encode the asset into your script, but that will count as data to be stored.
+
+### Can I use text? What fonts can I use?
+
+You can use text in your project! Font choice is technically at your discression but you're encouraged to use the core web fonts to ensure universal support and maintain the integrity of the piece over the longer term. (`serif`, `sans-serif`, `monospace` and less commonly `cursive` and `fantasy`)
+
+### What does it mean that the code lives on-chain?
+
+At its most basic, the Ethereum network is like a cloud computer where everyone can see the inputs and outputs of any function. Because all the inputs and outputs are public and verified by a network of random computers, you can have a lot of trust that the computation isn't cheating and is following all of the expected rules. One consequence of the way this all works is that the entire network will have copies of all the inputs and outputs for every transaction
+that each node will need to store indefinitely. Art Blocks leverages this fact by making the code for each project the input to a transaction that saves the code. In this way, the code for generating each piece is stored for as long as the network remains active in a whole ton of computers all over the world. In theory it should be possible to recreate all of these projects very far into the future (so long as JavaScript can be emulated and a reference can be
+found to the libraries).
+
+## What is gas and why does everyone keep talking about it?
+
+If we think about the Ethereum network as a computer and transactions as functions, each transaction has a certain amount of computation power that is needed to run it. The cost for each operation in a transaction is expressed in gas. The more operations in a function or the more complex those operations are, the more
+gas it will cost to run that function.
+
+When I decide to run a transaction, that transaction has an idea of how much gas it will take to run and I can decide how much I want to pay for each gas. The price for each unit of gas is expressed in billionths of an ether or 'gwei'. The higher the gas price I'm willing to pay, the more likely it is that someone will execute that transaction for me (they get to keep whatever the gas cost is). If I need a transaction done really quickly, I'll probably want to use a pretty high gas price. If I don't need it done anytime soon, I could probably get away with paying less.
+
+With Art Blocks drops, we have historically spiked the gas price in a very short period of time. Lots of people all wanted fast transactions all at the same time since if your transaction was too slow, you would miss out on the drop and lose whatever gas you paid. Sometimes the gas would spike very high, it wan't uncommon to spend as much on gas as on the art itself! The Art Blocks team has been combating this by offering larger editions and limiting it to one transaction per wallet to start. Gas still spikes for various reasons throughout the day, so it's a good idea to keep an eye on prices if you're planning on minting a piece.
