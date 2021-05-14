@@ -88,7 +88,7 @@ Every time one of these functions is called, `random_dec()` will also be called 
 
 #### I heard I shouldn't use `Math.random()`. Why not?
 
-When users mint each piece, they are creating a hash token on the blockchain. All the attributes of your piece should be derived from that tokenso that user will be able to render their piece and get the same results each time. `Math.random` is derived from the computer's clock, so even if it is seeded there is no guarantee you will get the same output on different computing environments in the future.
+When users mint each piece, they are creating a hash token on the blockchain. All the attributes of your piece should be derived from that token so that user will be able to render their piece and get the same results each time. `Math.random` is derived from the computer's clock, so even if it is seeded there is no guarantee you will get the same output on different computing environments in the future.
 
 ### Create a series of hex pairs
 
