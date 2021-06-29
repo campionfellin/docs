@@ -43,7 +43,7 @@ let seed = parseInt(tokenData.hash.slice(0, 16), 16);
 
 While also keeping in mind: "Anyone who considers arithmetical methods of producing random digits is, of course, in a state of sin." - [John von Neumann](https://en.wikipedia.org/wiki/John_von_Neumann)
 
-That quote aside, here is a basic PRNG that works well for most purposes.
+That quote aside, here is a basic PRNG that works well for most purposes. This is for demonstration purposes - please do your own research about PRNGs and choose one suitable for your needs. Make sure you do your own testing.
 
 ```javascript
 class Random {
@@ -85,6 +85,31 @@ R.random_choice(["a", "b", "c"])
 ```
 
 Every time one of these functions is called, `random_dec()` will also be called somewhere in the stack. Applying the determistic arithmetic to the seed and returning a new random number.
+
+Here is another PRNG suggested by a community member which uses "xorshift128" generator, which may be more than sufficient for most applications and can be compressed to a far smaller output. Again, use with caution and test thoroughly before use.
+
+```javascript
+// hash from ArtBlocks scripts
+const hash = /* string from tokenData */;
+
+// state of the PRNG
+const xs_state = Uint32Array.from([0,0,0,0].map((_,i)=>parseInt(hash.substr(i*8+2,8),16)));
+
+const prng = () => {
+  /* Algorithm "xor128" from p. 5 of Marsaglia, "Xorshift RNGs" */
+  let s, t = xs_state[3];
+  xs_state[3] = xs_state[2];
+  xs_state[2] = xs_state[1];
+  xs_state[1] = s = xs_state[0];
+  t ^= t << 11;
+  t ^= t >>> 8;
+  xs_state[0] = t ^ s ^ (s >>> 19);
+  return xs_state[0] / 0x100000000;
+};
+
+// prints value in range 0..1
+console.log(prng());
+```
 
 #### I heard I shouldn't use `Math.random()`. Why not?
 
