@@ -3,7 +3,7 @@
 ## Upload
 - Submit one field at a time. Wait for that transaction to clear before attempting the next field.
 - When you upload your script, please copy it exactly from testnet.
-- Include the following in the Project Base URI field: https://api.artblocks.io/token/
+- Include the following in the Project Base URI field: `https://api.artblocks.io/token/`
 
 ## Economics
 - Consider the overall economics of your project for a successful release.
