@@ -19,6 +19,11 @@
 ## Scheduling
 - Once mint #0 and the features script are in place, you may schedule/announce your release.
 
+## Limiter
+- For factory/playground projects, the limiter will be turned off by default.
+- Please let us know if you'd like the limiter to be activated for your project.
+- The limiter will restrict purchases to one mint per wallet for a specified amount of time after drop.
+
 ## Unpausing
 - When it's time, you'll click the Unpause button under the Danger tab.
 - Once the transaction clears, your project will be live for minting.
