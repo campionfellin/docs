@@ -51,6 +51,7 @@ class Random {
     this.seed = seed
   }
   random_dec() {
+    /* Algorithm "xor" from p. 4 of Marsaglia, "Xorshift RNGs" */
     this.seed ^= this.seed << 13
     this.seed ^= this.seed >> 17
     this.seed ^= this.seed << 5
