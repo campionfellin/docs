@@ -181,6 +181,15 @@ function setup() {
      rect(100*M, 500*M, 50*M, 50*M)
 }
 ```
+Before submitting your script, it's probably a good idea to test it in different resolutions and aspect ratios.
+
+Set the hash to a constant value, eg:
+```javascript
+//fixed hash:
+tokenData = {hash: "0x11ac16678959949c12d5410212301960fc496813cbc3495bf77aeed738579738"};
+```
+
+And then play with the browser window size, and refresh to check that your art looks the same at any resolution.
 
 ### Cost
 Storing code on Ethereum is expensive! Taking average gas prices, you can generally expect to pay ~$10 for each full line of code your script requires. With that in mind - keep things efficient, maximize code reuse with functions, remove comments, and minify your finished code.
