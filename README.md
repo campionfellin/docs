@@ -18,7 +18,16 @@ This hash will be the source of entropy or variation use to determine the output
 let hash = tokenData.hash
 ```
 
-When you are testing locally, this variable obviously will not be defined in your browser environment. Thus here is a simple function to generate valid hashes.
+Included in the `tokenData` is also the `tokenId`. The `tokenId` encodes both the project number and the mint number with the following formula: `tokenId = (projectNumber * 1000000) + mintNumber`.
+
+If your script needs to know the mint number or project number, it can do so like this:
+
+```javascript
+let projectNumber = Math.floor(parseInt(tokenData.tokenId) / 1000000)
+let mintNumber = parseInt(tokenData.tokenId) % (projectNumber * 1000000)
+```
+
+When you are testing locally, this variable obviously will not be defined in your browser environment. Thus here is a simple function to generate valid hashes and tokenIds.
 
 ```javascript
 function random_hash() {
@@ -28,7 +37,10 @@ function random_hash() {
   return result;
 }
 
-tokenData = {"hash": random_hash()}
+tokenData = {
+  "hash": random_hash(),
+  "tokenId": "123000456"
+}
 ```
 
 There are two primary ways to use this hash:
@@ -186,7 +198,7 @@ Before submitting your script, it's probably a good idea to test it in different
 Set the hash to a constant value, eg:
 ```javascript
 //fixed hash:
-tokenData = {hash: "0x11ac16678959949c12d5410212301960fc496813cbc3495bf77aeed738579738"};
+tokenData = {hash: "0x11ac16678959949c12d5410212301960fc496813cbc3495bf77aeed738579738", tokenId: "123000456"};
 ```
 
 And then play with the browser window size, and refresh to check that your art looks the same at any resolution.
